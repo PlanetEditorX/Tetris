@@ -42,14 +42,27 @@
         // 给对应的有颜色方块添加类名
         $("tr").eq(row).children("td").eq(col).addClass("c"+num)
     }
+    //清屏功能
+    Game.prototype.clear = function () {
+        for (let i = 0; i < this.row; i++) {
+            for (let j = 0; j < this.col; j++) {
+                //移除所有的class
+                $("tr").eq(i).children("td").eq(j).removeClass()
+            }
+        }
+    }
     //定时器
     Game.prototype.start = function () {
         var self = this
         this.timer = setInterval(function () {
+            //清屏
+            self.clear()
             //渲染方块
             self.block.render()
             //渲染地图
             self.map.render(self)
+            //下落
+            self.block.checkDown()
         },500)
     }
 })()

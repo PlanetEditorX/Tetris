@@ -11,8 +11,6 @@
         this.dir = parseInt(Math.random() * this.allDir)
         //第五步 得到随机的方块
         this.code = allBlock[this.type][this.dir]
-
-
         //初始的行
         this.row = 0
         //初始的列,因为要居中显示,所以列要为4
@@ -29,5 +27,24 @@
                 }
             }
         }
+    }
+    Block.prototype.check = function (row,col) {
+        //预判断方法，判断的是对应位置的方块和地图是否有不为0的情况，如果有则返回true，否则返回false
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+                if (this.code[i][j] != 0 && game.map.mapCode[i+row][j+col]!=0) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    //方块下落，判断当前的方块是否能够下落
+    Block.prototype.checkDown = function () {
+        //判断当前地图的位置和自己方块的位置是否有重合，this.row+1指的是预判断
+        if (this.check(this.row+1,this.col)) {
+            this.row++
+        }
+
     }
 })()
