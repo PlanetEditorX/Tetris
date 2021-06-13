@@ -5,6 +5,12 @@
         this.col = 12
         //初始化
         this.init()
+        //实例方块
+        this.block = new Block()
+        //实例地图
+        this.map = new Map()
+        //启动定时器
+        this.start()
     } 
     //初始化布局
     Game.prototype.init = function () {
@@ -35,5 +41,15 @@
     Game.prototype.setColor = function (row,col,num) {
         // 给对应的有颜色方块添加类名
         $("tr").eq(row).children("td").eq(col).addClass("c"+num)
+    }
+    //定时器
+    Game.prototype.start = function () {
+        var self = this
+        this.timer = setInterval(function () {
+            //渲染方块
+            self.block.render()
+            //渲染地图
+            self.map.render(self)
+        },500)
     }
 })()
