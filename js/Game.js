@@ -11,6 +11,8 @@
         this.map = new Map()
         //启动定时器
         this.start()
+        //键盘事件监听
+        this.bindEvent()
     } 
     //初始化布局
     Game.prototype.init = function () {
@@ -64,5 +66,19 @@
             //下落
             self.block.checkDown()
         },500)
+    }
+    //事件监听
+    Game.prototype.bindEvent = function () {
+        //备份
+        let self = this
+        document.onkeydown = function (event) {
+            console.log(event.key);
+            if (event.key==='ArrowLeft') {
+                //判断是否能向左走
+                self.block.checkLeft()
+            }else if (event.key==='ArrowRight') {
+                self.block.checkRight()
+            }
+        }
     }
 })()
