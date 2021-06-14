@@ -76,4 +76,28 @@
             this.col++
         }
     }
+    //判断方块能否到底
+    Block.prototype.checkBlockEnd = function () {
+        //使用while循环,如果check返回true则能下落
+        while (this.check(this.row + 1, this.col)) {
+            this.row++
+        }
+    }
+    //方块的旋转
+    Block.prototype.checkRot = function () {
+        //备份旧形状
+        let oldDir = this.dir
+        //改变后
+        this.dir++
+        if (this.dir > this.allDir - 1) {
+            this.dir = 0
+        }
+        this.code = allBlock[this.type][this.dir]
+        //渲染后的新方块是否有能力进行渲染
+        if (!this.check(this.row, this.col)) {
+            //进入这里说明旋转后进行了重合,恢复原状
+            this.dir = oldDir
+            this.code = allBlock[this.type][this.dir]
+        }
+    }
 })()

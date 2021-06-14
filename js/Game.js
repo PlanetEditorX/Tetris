@@ -72,12 +72,16 @@
         //备份
         let self = this
         document.onkeydown = function (event) {
-            console.log(event.key);
             if (event.key==='ArrowLeft') {
                 //判断是否能向左走
                 self.block.checkLeft()
             }else if (event.key==='ArrowRight') {
                 self.block.checkRight()
+            }else if (event.key==='ArrowUp') {
+                //用来切换方块方向
+                self.block.checkRot()
+            }else if (event.key==='ArrowDown') {
+                self.block.checkBlockEnd()
             }
         }
     }
