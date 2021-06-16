@@ -49,6 +49,10 @@
             game.block = new Block()
             //方块到底,渲染到地图中
             this.renderMap()
+            //判断是否可以消行
+            game.map.checkRemove()
+            //判断是否游戏结束
+            this.checkOver()
         }
 
     }
@@ -99,5 +103,15 @@
             this.dir = oldDir
             this.code = allBlock[this.type][this.dir]
         }
+    }
+    //判断游戏结束
+    Block.prototype.checkOver = function () {
+        for (let i = 0; i < game.col; i++) {
+            if (game.map.mapCode[0][i]!==0) {
+                clearInterval(game.timer)
+                alert('游戏结束')
+            }
+        }
+
     }
 })()
