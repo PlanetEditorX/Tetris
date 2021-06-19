@@ -24,7 +24,7 @@
                 //如果4x4的矩阵中某一项不为0,就说明有颜色,渲染这个颜色
                 if (this.code[i][j] != 0) {
                     game.setColor(i + this.row, j + this.col, this.code[i][j])
-                    
+
                 }
             }
         }
@@ -109,9 +109,9 @@
     //判断游戏结束
     Block.prototype.checkOver = function () {
         for (let i = 0; i < game.col; i++) {
-            if (game.map.mapCode[0][i]!==0) {
+            if (game.map.mapCode[0][i] !== 0) {
                 clearInterval(game.timer)
-                alert('游戏结束')
+                alert(`游戏结束!您当前的得分为: ${game.score}`)
             }
         }
 

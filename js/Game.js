@@ -1,4 +1,4 @@
-(function() {
+(function () {
     window.Game = function () {
         //设置行和列
         this.row = 20
@@ -15,7 +15,13 @@
         this.start()
         //键盘事件监听
         this.bindEvent()
-    } 
+        //分数
+        this.score = 0
+        //速度
+        this.during = 30
+        //帧
+        this.f = 0
+    }
     //初始化布局
     Game.prototype.init = function () {
         //初始化大表格
@@ -57,18 +63,18 @@
      * @param {int} col 列
      * @param {int} num 状态
      */
-    Game.prototype.setColor = function (row,col,num) {
+    Game.prototype.setColor = function (row, col, num) {
         // 给对应的有颜色方块添加类名
-       $('.tab1').find('tr').eq(row).children("td").eq(col).addClass("c"+num)
+        $('.tab1').find('tr').eq(row).children("td").eq(col).addClass("c" + num)
     }
-    Game.prototype.setNextColor = function (row,col,num) {
-       for (let i = 0; i < 4; i++) {
-           for (let j = 0; j < 4; j++) {
-               if (this.nextBlock.code[i][j]!=0) {
-                $('.tab2').find('tr').eq(i).children("td").eq(j).addClass("c"+this.nextBlock.code[i][j])
-               }
-           }
-       }
+    Game.prototype.setNextColor = function (row, col, num) {
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+                if (this.nextBlock.code[i][j] != 0) {
+                    $('.tab2').find('tr').eq(i).children("td").eq(j).addClass("c" + this.nextBlock.code[i][j])
+                }
+            }
+        }
     }
     //清屏功能
     Game.prototype.clear = function () {
@@ -84,12 +90,17 @@
                 $(".tab2").find('tr').eq(i).children("td").eq(j).removeClass()
             }
         }
-        
+
     }
     //定时器
     Game.prototype.start = function () {
         var self = this
+        //帧编号
+        this.f = 0
         this.timer = setInterval(function () {
+            self.f++
+            //渲染帧编号
+            document.getElementById("f").innerHTML = `帧编号: ${self.f}`
             //清屏
             self.clear()
             //渲染方块
@@ -99,23 +110,23 @@
             //渲染地图
             self.map.render(self)
             //下落
-            self.block.checkDown()
-        },500)
+            self.f % self.during === 0 && self.block.checkDown()
+        }, 20)
     }
     //事件监听
     Game.prototype.bindEvent = function () {
         //备份
         let self = this
         document.onkeydown = function (event) {
-            if (event.key==='ArrowLeft') {
+            if (event.key === 'ArrowLeft') {
                 //判断是否能向左走
                 self.block.checkLeft()
-            }else if (event.key==='ArrowRight') {
+            } else if (event.key === 'ArrowRight') {
                 self.block.checkRight()
-            }else if (event.key==='ArrowUp') {
+            } else if (event.key === 'ArrowUp') {
                 //用来切换方块方向
                 self.block.checkRot()
-            }else if (event.key==='ArrowDown') {
+            } else if (event.key === 'ArrowDown') {
                 self.block.checkBlockEnd()
             }
         }
