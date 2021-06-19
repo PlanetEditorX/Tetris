@@ -7,6 +7,8 @@
         this.init()
         //实例方块
         this.block = new Block()
+        //实例下一个方块
+        this.nextBlock = new Block()
         //实例地图
         this.map = new Map()
         //启动定时器
@@ -16,7 +18,9 @@
     } 
     //初始化布局
     Game.prototype.init = function () {
+        //初始化大表格
         var $table = $("<table></table>")
+        $table.addClass('tab1')
         //渲染表格
         for (var i = 0; i < this.row; i++) {
             //创建tr
@@ -30,8 +34,21 @@
             //将行追加到表格
             $tr.appendTo($table)
         }
+        //初始化预览窗口
+        var $table2 = $("<table></table>")
+        $table2.addClass('tab2')
+        for (let i = 0; i < 4; i++) {
+            var $tr2 = $("<tr></tr>")
+            for (let j = 0; j < 4; j++) {
+                var $td2 = $("<td></td>")
+                $td2.appendTo($tr2)
+            }
+            $tr2.appendTo($table2)
+        }
         //将表格追加到body
-        $($table).appendTo("body")
+        $($table).appendTo("body")//主表格
+        $($table2).appendTo("body")//预览表格
+
     }
 
     /**
@@ -42,16 +59,32 @@
      */
     Game.prototype.setColor = function (row,col,num) {
         // 给对应的有颜色方块添加类名
-        $("tr").eq(row).children("td").eq(col).addClass("c"+num)
+       $('.tab1').find('tr').eq(row).children("td").eq(col).addClass("c"+num)
+    }
+    Game.prototype.setNextColor = function (row,col,num) {
+       for (let i = 0; i < 4; i++) {
+           for (let j = 0; j < 4; j++) {
+               if (this.nextBlock.code[i][j]!=0) {
+                $('.tab2').find('tr').eq(i).children("td").eq(j).addClass("c"+this.nextBlock.code[i][j])
+               }
+           }
+       }
     }
     //清屏功能
     Game.prototype.clear = function () {
         for (let i = 0; i < this.row; i++) {
             for (let j = 0; j < this.col; j++) {
                 //移除所有的class
-                $("tr").eq(i).children("td").eq(j).removeClass()
+                $(".tab1").find('tr').eq(i).children("td").eq(j).removeClass()
             }
         }
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+                //移除所有的class
+                $(".tab2").find('tr').eq(i).children("td").eq(j).removeClass()
+            }
+        }
+        
     }
     //定时器
     Game.prototype.start = function () {
@@ -61,6 +94,8 @@
             self.clear()
             //渲染方块
             self.block.render()
+            //渲染预览方块
+            self.setNextColor()
             //渲染地图
             self.map.render(self)
             //下落

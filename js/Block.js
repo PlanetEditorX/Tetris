@@ -24,6 +24,7 @@
                 //如果4x4的矩阵中某一项不为0,就说明有颜色,渲染这个颜色
                 if (this.code[i][j] != 0) {
                     game.setColor(i + this.row, j + this.col, this.code[i][j])
+                    
                 }
             }
         }
@@ -46,7 +47,8 @@
             this.row++
         } else {
             //下落到底的状态,渲染新方块
-            game.block = new Block()
+            game.block = game.nextBlock
+            game.nextBlock = new Block()
             //方块到底,渲染到地图中
             this.renderMap()
             //判断是否可以消行
